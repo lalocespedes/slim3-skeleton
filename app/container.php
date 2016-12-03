@@ -1,18 +1,22 @@
 <?php
 // DIC configuration
 
-$container = $app->getContainer();
+use Slim\Views\Twig;
+use Slim\Views\TwigExtension;
+use Interop\Container\ContainerInterface;
 
-// Register Twig on container
-$container['view'] = function ($container) {
-    $view = new \Slim\Views\Twig(__DIR__ . '/../resources/views', [
-        'cache' => false
-    ]);
-    
-    $view->addExtension(new Slim\Views\TwigExtension(
-        $container->get('router'),
-        $container->get('request')->getUri()
-    ));
+return [
+    'router' => DI\object(Slim\Router::class),
+    Twig::class => function (ContainerInterface $c) {
+        $twig = new Twig(__DIR__ . '/../resources/views', [
+            'cache' => false
+        ]);
 
-    return $view;
-};
+        $twig->addExtension(new TwigExtension(
+            $c->get('router'),
+            $c->get('request')->getUri()
+        ));
+
+        return $twig;
+    }
+];
