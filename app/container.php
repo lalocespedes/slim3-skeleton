@@ -18,5 +18,13 @@ return [
         ));
 
         return $twig;
+    },
+    'errorHandler' => function (ContainerInterface $c) {
+        return function ($request, $response, $exception) use ($c) {
+            $response->getBody()->rewind();
+            return $response->withStatus(500)
+                        ->withHeader('Content-Type', 'text/html')
+                        ->write($exception->getMessage());
+        };
     }
 ];
