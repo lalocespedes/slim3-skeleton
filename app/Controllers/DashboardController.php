@@ -11,6 +11,6 @@ class DashboardController
 
     public function index(Request $request, Response $response, Twig $view)
     {
-        return $view->render($response, '/templates/app.twig');
+        return $view->render($response, '/dashboard/dashboard.twig');
     }
 }

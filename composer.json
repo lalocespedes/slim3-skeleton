@@ -16,6 +16,7 @@
     },
     "require": {
         "php": ">=5.5.0",
+        "ext-sqlite": "*",
         "slim/slim": "^3.0",
         "slim/twig-view": "^2.0",
         "slim/flash": "^0.1.0",
@@ -23,6 +24,11 @@
         "symfony/var-dumper": "^3.1",
         "php-di/slim-bridge": "^1.0",
         "illuminate/database": "^5.3",
-        "vlucas/phpdotenv": "^2.4"
-    }
+        "vlucas/phpdotenv": "^2.4",
+        "robmorgan/phinx": "^0.6.5"
+    },
+	"scripts": {
+        "start": "php -S 0.0.0.0:8080 -t public",
+        "test": "phpunit"
+	}
 }

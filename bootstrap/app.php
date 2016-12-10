@@ -24,22 +24,32 @@ try {
 session_start();
 
 // Instantiate the app
-//$settings = require __DIR__ . '/../app/settings.php';
 $app = new App;
+
+$app->add(function ($request, $response, $next)
+{
+    // DataBase Migrate
+    $phinx = new Phinx\Console\PhinxApplication();
+
+    $phinx = new Phinx\Wrapper\TextWrapper($phinx, [
+        'configuration' => '../phinx.yml',
+        'parser' => 'yaml'
+    ]);
+
+    call_user_func([$phinx, 'getMigrate']);
+
+    $response = $next($request, $response);
+
+    return $response;
+    
+});
 
 require __DIR__ . '/../app/container.php';
 
+// Database connection
+$dbconfig = require __DIR__ . '/../config/database.php';
 $capsule = new \Illuminate\Database\Capsule\Manager;
-$capsule->addConnection([
-    'driver' => getenv('DB_CONNECTION'),
-    'host' => getenv('DB_HOST'),
-    'database' => getenv('DB_DATABASE'),
-    'username' => getenv('DB_USERNAME'),
-    'password' => getenv('DB_PASSWORD'),
-    'charset'   => 'utf8',
-    'collation' => 'utf8_unicode_ci',
-    'prefix'    => ''
-]);
+$capsule->addConnection($dbconfig);
 $capsule->setAsGlobal();
 $capsule->bootEloquent();
 

@@ -6,10 +6,12 @@ use Slim\Views\Twig;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
+use App\Models\User;
+
 class HomeController
 {
-    public function index(Request $request, Response $response, Twig $view)
+    public function index(Request $request, Response $response, Twig $view, User $user)
     {
-        return $view->render($response, 'home.twig');
+        return $response->withJson($user->all()->toArray());
     }
 }

@@ -1,12 +1,21 @@
-<!DOCTYPE html>
-<html lang="en">
-    <head>
-        <title>Slim Skeleton</title>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1">
-        <link href="css/style.css" rel="stylesheet">
-    </head>
-    <body>
-        <h2 style="text-align: center;">Slim Skeleton <small>lalocespedes</small></h2>
-    </body>
-</html>
+{% extends "templates/base.twig" %} 
+
+{% block head %}
+{{ parent() }}
+<style>
+    body {
+        padding-top: 70px;
+        padding-bottom: 40px;
+        background-color: #eee;
+    }
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+    {% include "templates/partials/navigation.twig" %}
+
+    <h2 style="text-align: center;">Slim Skeleton <small>lalocespedes</small></h2>
+
+{% endblock %}
