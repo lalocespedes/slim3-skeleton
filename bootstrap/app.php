@@ -3,7 +3,7 @@
 use App\App;
 
 define('INC_ROOT', dirname(__DIR__));
-ini_set('display_errors', '1');
+ini_set('display_errors', getenv('APP_DEBUG'));
 error_reporting(E_ALL);
 
 require __DIR__ . '/../vendor/autoload.php';
@@ -21,11 +21,18 @@ try {
     dd($e->getMessage());
 }
 
-session_start();
+date_default_timezone_set('Mexico/General');
+
+session_cache_limiter(false);
+
+if (!isset($_SESSION)) {
+    session_start();
+}
 
 // Instantiate the app
 $app = new App;
 
+// Middleware
 $app->add(function ($request, $response, $next)
 {
     // DataBase Migrate
@@ -37,6 +44,15 @@ $app->add(function ($request, $response, $next)
     ]);
 
     call_user_func([$phinx, 'getMigrate']);
+
+    //login
+    if (!isset($_SESSION['user_id']) && $request->getUri()->getPath() != '/sessions/login') {
+
+        if($request->getUri()->getPath() === '/') return $next($request, $response);
+
+        return $response->withRedirect('/sessions/login');
+
+    }
 
     $response = $next($request, $response);
 

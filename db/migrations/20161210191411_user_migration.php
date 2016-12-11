@@ -31,9 +31,9 @@ class UserMigration extends AbstractMigration
         $table->addColumn('username', 'string', ['limit' => 32])
             ->addColumn('password', 'string', ['limit' => 255])
             ->addColumn('email', 'string', ['limit' => 100])
-            ->addColumn('status','string', ['null'=>true])
+            ->addColumn('active', 'boolean')
             ->addTimestamps()
             ->addIndex(['username', 'email'], ['unique' => true])
-            ->save();
+            ->create();
     }
 }
