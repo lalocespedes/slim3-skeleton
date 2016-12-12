@@ -7,15 +7,25 @@ $container = $app->getContainer();
 
 $app->get("/", ['App\Controllers\HomeController', 'index'])->setName('home');
 
-$app->get("/dashboard", ['App\Controllers\DashboardController', 'index'])->setName('dashboard')->add(new AuthMiddleware($container));
+$app->group('', function () {
 
-$app->group('/sessions', function () {
-
+    //Auth
     $this->get('/logout', ['App\Controllers\SessionController', 'getSignOut'])->setName('logout');
-    $this->get('/login', ['App\Controllers\SessionController', 'getSignIn'])->setName('login');
-    $this->post('/postSignIn', ['App\Controllers\SessionController', 'postSignIn']);
+
+    // Dashboard
+    $this->get("/dashboard", ['App\Controllers\DashboardController', 'index'])->setName('dashboard');
+
+})->add(new AuthMiddleware($container));
+
+
+$app->group('', function () {
+
+        $this->get('/login', ['App\Controllers\SessionController', 'getSignIn'])->setName('login');
+        $this->post('/login', ['App\Controllers\SessionController', 'postSignIn']);
 
 })->add($container->get('csrf'))->add(new GuestMiddleware($container));
+
+// API
 
 $app->group('/api', function () {
 
@@ -26,4 +36,4 @@ $app->group('/api', function () {
     // User Profile
     $this->post('/profile/password/change', ['App\Controllers\Auth\PasswordController', 'postChangePassword']);
 
-});
+})->add(new AuthMiddleware($container));
