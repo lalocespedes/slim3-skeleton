@@ -5,4 +5,4 @@ Slim 3 skeleton
 
 php -S 0.0.0.0:8080 -t public
 
-or composer start --timeout=0
+or composer run-script start

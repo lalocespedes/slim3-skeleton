@@ -5,6 +5,8 @@ use Slim\Views\Twig;
 use Slim\Views\TwigExtension;
 use Interop\Container\ContainerInterface;
 
+use App\Auth\Auth;
+
 return [
     'router' => DI\object(Slim\Router::class),
     Twig::class => function (ContainerInterface $c) {
@@ -26,5 +28,11 @@ return [
                         ->withHeader('Content-Type', 'text/html')
                         ->write($exception->getMessage());
         };
+    },
+    'csrf' => function (ContainerInterface $c) {
+        return new \Slim\Csrf\Guard;
+    },
+    Auth::class => function (ContainerInterface $c) {
+        return new \App\Auth\Auth;
     }
 ];

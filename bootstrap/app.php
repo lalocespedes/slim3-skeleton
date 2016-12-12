@@ -31,8 +31,14 @@ if (!isset($_SESSION)) {
 
 // Instantiate the app
 $app = new App;
+$container = $app->getContainer();
 
 // Middleware
+
+$app->add(new \App\Middleware\CsrfViewMiddleware($container));
+
+$app->add($container->get('csrf'));
+
 $app->add(function ($request, $response, $next)
 {
     // DataBase Migrate
@@ -45,14 +51,14 @@ $app->add(function ($request, $response, $next)
 
     call_user_func([$phinx, 'getMigrate']);
 
-    //login
-    if (!isset($_SESSION['user_id']) && $request->getUri()->getPath() != '/sessions/login') {
+    // //login
+    // if (!isset($_SESSION['user_id']) && $request->getUri()->getPath() != '/sessions/login') {
 
-        if($request->getUri()->getPath() === '/') return $next($request, $response);
+    //     if($request->getUri()->getPath() === '/') return $next($request, $response);
 
-        return $response->withRedirect('/sessions/login');
+    //     return $response->withRedirect('/sessions/login');
 
-    }
+    // }
 
     $response = $next($request, $response);
 

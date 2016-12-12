@@ -17,5 +17,4 @@ class App extends DIBridge
 
         $builder->addDefinitions(__DIR__ . '/container.php');
     }
-
 }

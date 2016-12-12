@@ -8,7 +8,7 @@ use Psr\Http\Message\ServerRequestInterface as Request;
 
 use App\Models\User;
 
-class HomeController
+class UserController
 {
     public function index(Request $request, Response $response, Twig $view, User $user)
     {

@@ -6,6 +6,7 @@ $app->get("/dashboard", ['App\Controllers\DashboardController', 'index'])->setNa
 
 $app->group('/sessions', function () {
 
-     $this->get('/login', ['App\Controllers\SessionController', 'index'])->setName('login');
+     $this->get('/login', ['App\Controllers\SessionController', 'getSignIn'])->setName('login');
+     $this->post('/postSignUp', ['App\Controllers\SessionController', 'postSignIn'])->setName('postSignUp');
 
 });
