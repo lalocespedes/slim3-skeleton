@@ -7,7 +7,7 @@ use Respect\Validation\Exceptions\NestedValidationException;
 
 class Validator
 {
-    protected $errors;
+    protected $errors = [];
 
     public function validate($request, array $rules)
     {
@@ -20,16 +20,19 @@ class Validator
             } catch (NestedValidationException $e) {
 
                 $this->errors[$field] = $e->getMessages();
-
             }
-
-            return $this;
-            
         }
+        
+        return $this;
     }
 
     public function failed()
     {
         return !empty($this->errors);
+    }
+
+    public function errors()
+    {
+        return $this->errors;
     }
 }

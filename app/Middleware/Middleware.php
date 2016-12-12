@@ -9,8 +9,6 @@ class Middleware
 {
     public function __invoke(Request $request, Response $response, $next)
     {
-        //Evaluate condition
-
         $response = $next($request, $response);
 
         return $response;

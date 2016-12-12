@@ -48,15 +48,17 @@ class SessionController
     {
 
         $validation = $validator->validate($request, [
-            'email' => v::noWhitespace()->notEmpty()->alpha(),
-            'password' => v::noWhitespace()->notEmpty()
+            'email' => v::email(),
+            'password' => v::alnum()->noWhitespace()->length(4, 20)
         ]);
 
         if($validation->failed()) {
 
-            dd("no valido");
+            //$flash->addMessage('error', $validation->errors());
 
-            exit;
+            $flash->addMessage('error', 'Errores');
+
+            return $response->withRedirect($router->pathFor('login'));
 
         }
 
