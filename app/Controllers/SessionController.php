@@ -3,12 +3,13 @@
 namespace App\Controllers;
 
 use Slim\Views\Twig;
+use Slim\Router;
+use Slim\Csrf\Guard as Csrf;
+use Slim\Flash\Messages as Flash;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 use App\Auth\Auth;
-use Slim\Router;
-
 use App\Models\User;
 
 /**
@@ -16,12 +17,32 @@ use App\Models\User;
  */
 class SessionController
 {
-    public function getSignIn(Request $request, Response $response, Twig $view, User $user)
+    public function getSignOut(Request $request, Response $response, Router $router, Auth $auth)
     {
-        return $view->render($response, 'sessions/login.twig');
+        $auth->logout();
+
+        return $response->withRedirect($router->pathFor('home'));
+
     }
 
-    public function postSignIn(Request $request, Response $response, Auth $auth, Router $router)
+    public function getSignIn(Request $request, Response $response, Twig $view, User $user, Csrf $csrf)
+    {
+        $nameKey = $csrf->getTokenNameKey();
+        $valueKey = $csrf->getTokenValueKey();
+        $name = $request->getAttribute($nameKey);
+        $value = $request->getAttribute($valueKey);
+
+        $tokenArray= [
+            $nameKey => $name,
+            $valueKey => $value
+        ];
+
+        return $view->render($response, 'sessions/login.twig', [
+            'data' => $tokenArray
+        ]);
+    }
+
+    public function postSignIn(Request $request, Response $response, Auth $auth, Router $router, Flash $flash)
     {
         $attempt = $auth->attempt(
             $request->getParam('email'),
@@ -29,6 +50,8 @@ class SessionController
         );
 
         if(!$attempt) {
+
+            $flash->addMessage('error', 'Usuario y/o contraseña erroneo.');
 
             return $response->withRedirect($router->pathFor('login'));
 
@@ -44,20 +67,6 @@ class SessionController
             'name' => $request->getParam('name'),
             'password' => password_hash($request->getParam('password'), PASSWORD_DEFAULT)
         ]);
-
-        return $response->withRedirect($router->pathFor('home'));
-
-    }
-
-    public function postChangePassword(Request $request, Response $response, User $user, Router $router)
-    {
-        //$sql = $user->find(1);
-
-        // $sql->update([
-        //     'password' => password_hash('123456', PASSWORD_DEFAULT)
-        // ]);
-
-        // dd($sql);
 
         return $response->withRedirect($router->pathFor('home'));
 

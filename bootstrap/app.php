@@ -35,10 +35,6 @@ $container = $app->getContainer();
 
 // Middleware
 
-$app->add(new \App\Middleware\CsrfViewMiddleware($container));
-
-$app->add($container->get('csrf'));
-
 $app->add(function ($request, $response, $next)
 {
     // DataBase Migrate

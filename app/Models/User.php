@@ -18,4 +18,11 @@ class User extends Eloquent
     protected $hidden = [
         'password'
     ];
+
+    public function setPassword($password)
+    {
+        $this->update([
+            'password' => password_hash($password, PASSWORD_DEFAULT)
+        ]);
+    }
 }

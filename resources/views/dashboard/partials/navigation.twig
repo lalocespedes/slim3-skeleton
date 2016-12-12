@@ -12,7 +12,14 @@
         </div>
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="#"><i class="fa fa-gear"></i></a></li>
+                {% if auth.check %}
+                    <li>
+                        <a href="#">{{ auth.user.username }}</a>
+                    </li>
+                    <li>
+                        <a href="#"><i class="fa fa-gear"></i></a>
+                    </li>
+                {% endif %}
             </ul>
         </div>
     </div>

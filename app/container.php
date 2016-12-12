@@ -9,6 +9,12 @@ use App\Auth\Auth;
 
 return [
     'router' => DI\object(Slim\Router::class),
+    Auth::class => function (ContainerInterface $c) {
+        return new \App\Auth\Auth;
+    },
+    'flash' => function (ContainerInterface $c) {
+        return new \Slim\Flash\Messages;
+    },
     Twig::class => function (ContainerInterface $c) {
         $twig = new Twig(__DIR__ . '/../resources/views', [
             'cache' => false
@@ -18,6 +24,13 @@ return [
             $c->get('router'),
             $c->get('request')->getUri()
         ));
+
+        $twig->getEnvironment()->addGlobal('auth', [
+            'check' => $c->get('App\Auth\Auth')->check(),
+            'user' => $c->get('App\Auth\Auth')->user()
+        ]);
+
+        $twig->getEnvironment()->addGlobal('flash', $c->get('flash'));
 
         return $twig;
     },
@@ -31,8 +44,5 @@ return [
     },
     'csrf' => function (ContainerInterface $c) {
         return new \Slim\Csrf\Guard;
-    },
-    Auth::class => function (ContainerInterface $c) {
-        return new \App\Auth\Auth;
     }
 ];
