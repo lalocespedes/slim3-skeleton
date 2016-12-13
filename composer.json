@@ -26,7 +26,8 @@
         "illuminate/database": "^5.3",
         "vlucas/phpdotenv": "^2.4",
         "robmorgan/phinx": "^0.6.5",
-        "slim/csrf": "^0.8.0"
+        "slim/csrf": "^0.8.0",
+        "respect/validation": "^1.1"
     },
 	"scripts": {
         "start": "php -S 0.0.0.0:8080 -t public",

@@ -8,9 +8,11 @@ use Slim\Csrf\Guard as Csrf;
 use Slim\Flash\Messages as Flash;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Respect\Validation\Validator as v;
 
 use App\Auth\Auth;
 use App\Models\User;
+use App\Validation\Validator;
 
 /**
  * 
@@ -42,8 +44,22 @@ class SessionController
         ]);
     }
 
-    public function postSignIn(Request $request, Response $response, Auth $auth, Router $router, Flash $flash)
+    public function postSignIn(Request $request, Response $response, Auth $auth, Router $router, Flash $flash, Validator $validator)
     {
+
+        $validation = $validator->validate($request, [
+            'email' => v::noWhitespace()->notEmpty()->alpha(),
+            'password' => v::noWhitespace()->notEmpty()
+        ]);
+
+        if($validation->failed()) {
+
+            dd("no valido");
+
+            exit;
+
+        }
+
         $attempt = $auth->attempt(
             $request->getParam('email'),
             $request->getParam('password')

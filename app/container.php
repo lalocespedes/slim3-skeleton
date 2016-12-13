@@ -44,5 +44,8 @@ return [
     },
     'csrf' => function (ContainerInterface $c) {
         return new \Slim\Csrf\Guard;
+    },
+    'validator' => function (ContainerInterface $c) {
+        return new App\Validation\Validator;
     }
 ];

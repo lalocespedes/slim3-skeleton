@@ -5,8 +5,10 @@ namespace App\Controllers;
 use Slim\Views\Twig;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
+use Respect\Validation\Validator as v;
 
 use App\Models\User;
+use App\Validation\Validator;
 
 class UserController
 {
@@ -15,10 +17,16 @@ class UserController
         return $response->withJson($user->all()->toArray());
     }
 
-    public function postSaveUser(Request $request, Response $response, User $user)
+    public function postSaveUser(Request $request, Response $response, User $user, Validator $validator)
     {
 
         try {
+
+            $validation = $validator->validate($request, [
+                'email' => v::noWhitespace()->notEmpty(),
+                'name' => v::noWhitespace()->notEmpty()->alpha(),
+                'password' => v::noWhitespace()->notEmpty()
+            ]);
 
             $sql = $user->create([
                 'username' => $request->getParam('username'),

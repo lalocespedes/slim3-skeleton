@@ -36,4 +36,5 @@ $app->group('/api', function () {
     // User Profile
     $this->post('/profile/password/change', ['App\Controllers\Auth\PasswordController', 'postChangePassword']);
 
-})->add(new AuthMiddleware($container));
+// })->add(new AuthMiddleware($container));
+});
