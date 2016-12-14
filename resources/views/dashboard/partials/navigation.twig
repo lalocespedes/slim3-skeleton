@@ -14,11 +14,12 @@
             <ul class="nav navbar-nav navbar-right">
                 {% if auth.check %}
                     <li>
-                        <a href="#">{{ auth.user.username }}</a>
+                        <a>{{ auth.user.username }}</a>
                     </li>
                     <li>
                         <a href="#"><i class="fa fa-gear"></i></a>
                     </li>
+                    <li><a href="{{path_for('logout')}}" title="Salir"><i class="fa fa-sign-out"></i></a></li>
                 {% endif %}
             </ul>
         </div>

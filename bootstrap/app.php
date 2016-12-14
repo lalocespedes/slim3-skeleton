@@ -47,15 +47,6 @@ $app->add(function ($request, $response, $next)
 
     call_user_func([$phinx, 'getMigrate']);
 
-    // //login
-    // if (!isset($_SESSION['user_id']) && $request->getUri()->getPath() != '/sessions/login') {
-
-    //     if($request->getUri()->getPath() === '/') return $next($request, $response);
-
-    //     return $response->withRedirect('/sessions/login');
-
-    // }
-
     $response = $next($request, $response);
 
     return $response;
