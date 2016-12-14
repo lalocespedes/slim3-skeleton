@@ -3,6 +3,8 @@ Slim 3 skeleton
 
 ## Install
 
+composer create-project lalocespedes/slim3-skeleton [my-app-name]
+
 composer install
 
 Set .env file
