@@ -3,7 +3,7 @@ Slim 3 skeleton
 
 ## Install
 
-composer create-project lalocespedes/slim3-skeleton [my-app-name]
+composer create-project --stability=dev lalocespedes/slim3-skeleton [my-app-name]
 
 composer install
 
