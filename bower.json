@@ -1,0 +1,22 @@
+{
+  "name": "slim3-skeleton",
+  "description": "Slim 3 skeleton",
+  "main": "index.js",
+  "authors": [
+    "Eduardo Cespedes <lalocespedes@gmail.com>"
+  ],
+  "license": "ISC",
+  "homepage": "https://github.com/lalocespedes/slim3-skeleton",
+  "private": true,
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "devDependencies": {
+    "bootswatch-dist": "3.3.6-yeti",
+    "components-font-awesome": "^4.7.0"
+  }
+}
