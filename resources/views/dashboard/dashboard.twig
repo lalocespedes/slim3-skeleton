@@ -108,9 +108,14 @@
             </ul>
         </div>
         <div class="col-sm-9 col-sm-offset-3 col-md-10 col-md-offset-2 main">
-            <h1 class="page-header">Dashboard test</h1>
+            <ui-view></ui-view>
         </div>
     </div>
 </div>
 
 {% endblock %}
+
+{% block scripts %}
+    <!-- vendor:js --><script src="/scripts/vendor.js"></script><!-- endinject -->
+    <!-- inject:js --><script src="/scripts/scripts-d779275ab6.min.js"></script><script src="/scripts/templates-7936b96f74.js"></script><!-- endinject -->
+{% endblock scripts %}
