@@ -1,6 +1,8 @@
 var gulp = require('gulp');
 var concat = require('gulp-concat');
 var uglify = require('gulp-uglify');
+var rev = require('gulp-rev');
+var revDel = require('rev-del');
 var inject = require('gulp-inject');
 var browserSync = require('browser-sync');
 
@@ -14,8 +16,13 @@ gulp.task('vendor', function() {
     ])
 	.pipe(concat('vendor.js'))
 	.pipe(uglify())
-	.pipe(gulp.dest('./public/scripts'));
+    .pipe(rev())
+	.pipe(gulp.dest('./public/scripts'))
+    .pipe(rev.manifest('rev-manifiest-vendor'))
+    .pipe(revDel({ dest: './public/scripts' }))
+    .pipe(gulp.dest('./public/scripts'));
 
+    // Inject
     gulp.src('./resources/views/dashboard/dashboard.twig')
     .pipe(inject(gulp.src(['./public/scripts/vendor*.js'], {
             read: false
