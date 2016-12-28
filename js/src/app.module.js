@@ -1,9 +1,12 @@
-(function() {
+(function () {
 
     'use strict';
 
     angular.module('App', [
-        'ui.router'
+        'ui.router',
+        'ngSanitize',
+        'ngResource',
+        'ngStorage'
     ]);
-    
+
 })();

@@ -1,1 +1,0 @@
-angular.module('App').run(['$templateCache', function($templateCache) {$templateCache.put('dashboard/views/dashboard.html','<h1 class="page-header">Dashboard test</h1>aqui el dashboard');}]);
